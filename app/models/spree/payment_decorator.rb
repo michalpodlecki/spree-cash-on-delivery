@@ -1,5 +1,5 @@
 Spree::Payment.class_eval do
-  has_one :adjustment, :as => :source, :dependent => :destroy
+  has_one :adjustment, as: :source, dependent: :destroy
   after_create :payment_method_after_create
 
   def payment_method_after_create

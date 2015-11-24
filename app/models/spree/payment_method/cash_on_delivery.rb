@@ -67,5 +67,9 @@ module Spree
     def config_valid?
       preferred_fee.present?
     end
+
+    def compute_amount(_item)
+      payment_method.preferences[:fee]
+    end
   end
 end
