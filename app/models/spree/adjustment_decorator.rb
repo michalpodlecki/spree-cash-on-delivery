@@ -1,3 +1,3 @@
 Spree::Adjustment.class_eval do
-  scope :payment_method, -> { where(source_type: 'Spree::Payment') }
+  scope :payment_method, -> { where("source_type LIKE 'Spree::Payment%'") }
 end

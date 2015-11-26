@@ -3,20 +3,26 @@ module Spree
 
     preference :fee, :string
 
+    def compute_amount(item=nil)
+      preferred_fee.to_f
+    end
+
     def payment_profiles_supported?
       true # we want to show the confirm step.
     end
 
     def post_create(payment)
-      payment.order.adjustments.each { |a| a.destroy if a.label == I18n.t(:shipping_and_handling) }
-      payment.order.adjustments.create(:amount => payment.payment_method.preferences[:fee],
-                               :source => payment,
-                               :order => payment.order,
-                               :label => I18n.t(:shipping_and_handling))
+      payment.order.adjustments.payment_method.destroy_all
+      payment.order.adjustments.create(
+        amount: compute_amount,
+        source: self,
+        order: payment.order,
+        label: I18n.t(:shipping_and_handling)
+      )
     end
 
     def update_adjustment(adjustment, src)
-      adjustment.update_attribute_without_callbacks(:amount, payment.payment_method.preferences[:fee])
+      adjustment.update_attribute_without_callbacks(:amount, compute_amount)
     end
 
 
@@ -66,10 +72,6 @@ module Spree
 
     def config_valid?
       preferred_fee.present?
-    end
-
-    def compute_amount(_item)
-      payment_method.preferences[:fee]
     end
   end
 end

@@ -4,9 +4,7 @@ module Spree
 
     def ensure_no_payment_adjustment_in_cart
       return unless @order.state == 'payment'
-      @order.adjustments.each do |a|
-        a.destroy if a.source.payment_method.class.name.in? ['Spree::PaymentMethod::CashOnDelivery']
-      end
+      @order.adjustments.payment_method.destroy_all
     end
   end
 end
