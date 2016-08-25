@@ -15,10 +15,10 @@ module Spree::CashOnDelivery
       end
     end
 
-    config.to_prepare &method(:activate).to_proc
-
-    initializer "spree_cash_on_delivery.register.payment_method", :after => "spree.register.payment_methods" do |app|
+    initializer "spree.register.payment_methods" do |app|
       app.config.spree.payment_methods << Spree::PaymentMethod::CashOnDelivery
     end
+
+    config.to_prepare &method(:activate).to_proc
   end
 end
