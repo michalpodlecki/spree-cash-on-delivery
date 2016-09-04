@@ -61,5 +61,25 @@ module Spree
     def cash_on_delivery?
       true
     end
+
+    def create_adjustment(payment)
+      return unless payment.new_record?
+
+      payment.order.adjustments.create!(
+        amount: compute_charge.call(payment.order),
+        label: I18n.t(:charge_label, scope: :on_delivery),
+        order: payment.order
+      )
+    end
+
+    def compute_commission(order)
+      compute_charge.call(order)
+    end
+
+    private
+
+    def compute_charge
+      Rails.application.config.cash_on_delivery_charge if defined?(Rails)
+    end
   end
 end
