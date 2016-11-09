@@ -17,13 +17,9 @@ module Spree
     private
 
     def cash_on_delivery?
-      r = order.payments.any? do |payment|
+      order.payments.any? do |payment|
         payment.payment_method.respond_to?(:cash_on_delivery?)
       end
-      puts 'cash_on_delivery?'
-      puts r.inspect
-      puts '---'
-      r
     end
   end
 end
