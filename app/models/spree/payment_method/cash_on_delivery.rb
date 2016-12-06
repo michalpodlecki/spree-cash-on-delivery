@@ -35,6 +35,7 @@ module Spree
     end
 
     def can_capture?(payment)
+      return false if payment.completed?
       payment.order.shipments.all? do |shipment|
         shipment.state == 'shipped'
       end
