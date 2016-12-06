@@ -35,7 +35,9 @@ module Spree
     end
 
     def can_capture?(payment)
-      payment.state == 'credit'
+      payment.order.shipments.all? do |shipment|
+        shipment.state == 'shipped'
+      end
     end
 
     def can_void?(payment)
