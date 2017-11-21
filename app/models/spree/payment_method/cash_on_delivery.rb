@@ -66,7 +66,7 @@ module Spree
     end
 
     def apply_adjustment(order)
-      label = I18n.t(:charge_label, scope: :on_delivery)
+      label = I18n.t(:charge_label, scope: :cash_on_delivery)
 
       order.adjustments.each { |a| a.destroy if a.label == label }
       order.adjustments.create!(

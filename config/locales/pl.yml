@@ -1,6 +1,6 @@
 pl:
+  cash_on_delivery:
+    charge_label: Prowizja od płatności przy odbiorze
   cash_received: Otrzymano wpłatę
   order_description: "Zamówienie z %{name}"
-  on_delivery:
-    charge_label: Prowizja od płatności przy odbiorze
   shipping_and_handling:
